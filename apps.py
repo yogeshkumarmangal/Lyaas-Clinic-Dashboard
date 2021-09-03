@@ -13,8 +13,7 @@ colors = {
     'background': '#C26000 ',
     'text': '#7FDBFF'
 }
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets,meta_tags=[{'name': 'viewport',
-                #             'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.5,'}])
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server=app.server
 dbx = dropbox.Dropbox("5uSdWA0gd2UAAAAAAAAAAauPVaO_t_nlwRgP3YzwZ8-2HlxYFWRLUrmTAgk4F4b7")
 for entry in dbx.files_list_folder('').entries:
@@ -37,9 +36,9 @@ opts = [{'label' : i, 'value' : i} for i in features]
 st['Date'] = pd.to_datetime(st.Date,format='%d/%m/%Y')
 # Step 3. Create a plotly figure
 fig = make_subplots(
-    rows=2, cols=3,
-    column_widths=[1,1,1],
-    row_heights=[1,1])
+    rows=3, cols=2,
+    column_widths=[1,1],
+    row_heights=[1,1,1])
 fig.add_trace(
     go.Bar(name='Navin Test Per Day',x=st.Date,y=st['Navin'], marker=dict(color="blue"), showlegend=True),
     row=1, col=1
@@ -50,19 +49,19 @@ fig.add_trace(
 )
 fig.add_trace(
     go.Bar(name='Fayaz Test Per day',x=st.Date,y=st['Fayaz'], marker=dict(color="Green"), showlegend=True),
-    row=1, col=3
-)
-fig.add_trace(
-    go.Bar(name='Sumaiya Test Per day',x=st.Date,y=st['Sumaiya'], marker=dict(color="orange"), showlegend=True),
     row=2, col=1
 )
 fig.add_trace(
-    go.Bar(name='Obaidulah Test Per day',x=st.Date,y=st['Sumaiya'], marker=dict(color="darkcyan"), showlegend=True),
+    go.Bar(name='Sumaiya Test Per day',x=st.Date,y=st['Sumaiya'], marker=dict(color="orange"), showlegend=True),
     row=2, col=2
 )
 fig.add_trace(
+    go.Bar(name='Obaidulah Test Per day',x=st.Date,y=st['Sumaiya'], marker=dict(color="darkcyan"), showlegend=True),
+    row=3, col=1
+)
+fig.add_trace(
     go.Bar(name='Total Test Per day',x=st.Date,y=st['Total'], marker=dict(color="purple"), showlegend=True),
-    row=2, col=3
+    row=3, col=2
 )
 fig.update_geos(
     projection_type="orthographic",
@@ -72,7 +71,7 @@ fig.update_geos(
     lakecolor="LightBlue"
 )
 fig.update_xaxes(tickangle=45)
-fig.update_layout(height=700, width=1500,
+fig.update_layout(
     template="plotly_dark",
     margin=dict(r=10, t=25, b=140, l=60),
     annotations=[
@@ -84,7 +83,7 @@ fig.update_layout(height=700, width=1500,
             y=0)
     ]
 )
-fig.update_layout(height=500, width=700,title_text="Lyfas Clinic Test Dashboard")
+fig.update_layout(title_text="Lyfas Clinic Test Dashboard")
 app.layout = html.Div(style={'backgroundColor': colors['background']},children=[
                 # adding a header and a paragraph
                 html.Div([
@@ -154,9 +153,9 @@ def update_charts(start_date, end_date):
     )
     filtered_data = st.loc[mask, :]
     fig = make_subplots(
-    rows=2, cols=3,
-    column_widths=[1,1,1],
-    row_heights=[1,1])
+    rows=3, cols=2,
+    column_widths=[1,1],
+    row_heights=[1,1,1])
     fig.add_trace(
     go.Bar(name='Navin Test Per Day',x=filtered_data['Date'],y=filtered_data['Navin'], marker=dict(color="blue"), showlegend=True,text=filtered_data['Navin'],textposition='auto'),
     row=1, col=1
@@ -167,16 +166,16 @@ def update_charts(start_date, end_date):
     )
     fig.add_trace(
     go.Bar(name='Fayaz Test Per day',x=filtered_data['Date'],y=filtered_data['Fayaz'], marker=dict(color="Green"), showlegend=True,text=filtered_data['Fayaz'],textposition='auto'),
-    row=1, col=3)
-    fig.add_trace(
-    go.Bar(name='Sumaiya Test Per day',x=filtered_data['Date'],y=filtered_data['Sumaiya'], marker=dict(color="orange"), showlegend=True,text=filtered_data['Sumaiya'],textposition='auto'),
     row=2, col=1)
     fig.add_trace(
-    go.Bar(name='Obaidulah Test Per day',x=filtered_data['Date'],y=filtered_data['Obaidulah'], marker=dict(color="darkcyan"), showlegend=True,text=filtered_data['Obaidulah'],textposition='auto'),
+    go.Bar(name='Sumaiya Test Per day',x=filtered_data['Date'],y=filtered_data['Sumaiya'], marker=dict(color="orange"), showlegend=True,text=filtered_data['Sumaiya'],textposition='auto'),
     row=2, col=2)
     fig.add_trace(
+    go.Bar(name='Obaidulah Test Per day',x=filtered_data['Date'],y=filtered_data['Obaidulah'], marker=dict(color="darkcyan"), showlegend=True,text=filtered_data['Obaidulah'],textposition='auto'),
+    row=3, col=1)
+    fig.add_trace(
     go.Bar(name='Total Test Per day',x=filtered_data['Date'],y=filtered_data['Total'],marker=dict(color="purple"), showlegend=True,text=filtered_data['Total'],textposition='auto'),
-    row=2, col=3)
+    row=3, col=2)
     fig.update_geos(
     projection_type="orthographic",
     landcolor="white",
@@ -185,7 +184,7 @@ def update_charts(start_date, end_date):
     lakecolor="LightBlue"
     )
     fig.update_xaxes(tickangle=45)
-    fig.update_layout(height=700, width=1500,
+    fig.update_layout(
     template="plotly_dark",
     margin=dict(r=10, t=25, b=40, l=60),
     annotations=[
@@ -197,7 +196,7 @@ def update_charts(start_date, end_date):
             y=0)
     ]
     )
-    fig.update_layout(title_text="Lyfas Clinic Test Dashboard")
+    fig.update_layout(height=700,title_text="Lyfas Clinic Test Dashboard")
     return fig
     # updating the plot
   
