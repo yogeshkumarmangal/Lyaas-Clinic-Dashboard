@@ -123,7 +123,6 @@ app.layout = html.Div(style={'backgroundColor': colors['background']},children=[
                     ]
                 ),
                 html.Hr(style={'color':'black','width':'99%','height':'2px','backgroundColor': 'black'}),
-                html.Div('Acculi Labs, #1156,Office Berth, BEML Layout, RR Nagar, Bangalore 560098',style={'font-size': '30px','font-family':'Times New Roman','color':'black','textAlign':'center'}),
                 html.Br(),
                 html.A([html.Button(html.Img(src='https://www.lyfas.com/wp-content/uploads/2017/06/cropped-Logo.png',width="120",height ="70"),
                                     style={'width':'10%', 'border':'1px orange','height': '70px','textalign':'center', 'marginLeft': '230px'})],href="https://www.lyfas.com/",target="_blank"),
@@ -142,6 +141,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']},children=[
                                              width="120",height ="70"),
                                     style={'width':'10%', 'border':'1px orange','height': '70px','textalign':'center', 'marginLeft': '10px'})],href="https://www.youtube.com/channel/UCT-AeDjLikJexnSSQB79B5w",target="_blank"),
                 html.Br(),
+                html.Footer(html.P('Acculi Labs, #1156,Office Berth, BEML Layout, RR Nagar, Bangalore 560098',style={'font-size': '30px','font-family':'Times New Roman','color':'black','textAlign':'center'})),
+                
                       ])
 @app.callback(Output('plot', 'figure'),
              [ Input("date-range", "start_date"),
